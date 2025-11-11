@@ -39,13 +39,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
         activitiesList.appendChild(activityCard);
 
-        // Render participants list
+        // Render participants list (hide bullet points via CSS)
         const participantsUl = activityCard.querySelector(".participants-list");
         if (details.participants && details.participants.length) {
           details.participants.forEach((participant) => {
             const li = document.createElement("li");
             const initial = (participant && participant.trim().charAt(0)) ? participant.trim().charAt(0).toUpperCase() : "?";
-            li.innerHTML = `<span class="avatar" aria-hidden="true">${initial}</span><span class="participant-name">${participant}</span>`;
+
+            // Create elements
+            const avatar = document.createElement("span");
+            avatar.className = "avatar";
+            avatar.setAttribute("aria-hidden", "true");
+            avatar.textContent = initial;
+
+            const nameSpan = document.createElement("span");
+            nameSpan.className = "participant-name";
+            nameSpan.textContent = participant;
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-btn";
+            deleteBtn.title = `Unregister ${participant}`;
+            deleteBtn.setAttribute("aria-label", `Unregister ${participant} from ${name}`);
+            deleteBtn.innerHTML = "✖";
+
+            // Attach click handler to unregister participant
+            deleteBtn.addEventListener("click", async () => {
+              try {
+                const resp = await fetch(
+                  `/activities/${encodeURIComponent(name)}/participants?email=${encodeURIComponent(participant)}`,
+                  { method: "DELETE" }
+                );
+
+                const resJson = await resp.json();
+                if (resp.ok) {
+                  // remove the list item from DOM
+                  li.remove();
+                } else {
+                  console.error("Failed to unregister:", resJson);
+                  alert(resJson.detail || "Failed to unregister participant");
+                }
+              } catch (err) {
+                console.error(err);
+                alert("Network error while unregistering participant");
+              }
+            });
+
+            li.appendChild(avatar);
+            li.appendChild(nameSpan);
+            li.appendChild(deleteBtn);
             participantsUl.appendChild(li);
           });
         } else {

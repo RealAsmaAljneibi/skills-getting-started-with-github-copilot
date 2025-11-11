@@ -13,6 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
       // Clear loading message
       activitiesList.innerHTML = "";
 
+      // Clear existing select options (except placeholder)
+      Array.from(activitySelect.options).forEach((opt) => {
+        if (opt.value) opt.remove();
+      });
+
       // Populate activities list
       Object.entries(activities).forEach(([name, details]) => {
         const activityCard = document.createElement("div");
@@ -25,9 +30,30 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+
+          <div class="participants-section">
+            <h5>Participants</h5>
+            <ul class="participants-list"></ul>
+          </div>
         `;
 
         activitiesList.appendChild(activityCard);
+
+        // Render participants list
+        const participantsUl = activityCard.querySelector(".participants-list");
+        if (details.participants && details.participants.length) {
+          details.participants.forEach((participant) => {
+            const li = document.createElement("li");
+            const initial = (participant && participant.trim().charAt(0)) ? participant.trim().charAt(0).toUpperCase() : "?";
+            li.innerHTML = `<span class="avatar" aria-hidden="true">${initial}</span><span class="participant-name">${participant}</span>`;
+            participantsUl.appendChild(li);
+          });
+        } else {
+          const none = document.createElement("li");
+          none.className = "no-participants";
+          none.textContent = "No participants yet";
+          participantsUl.appendChild(none);
+        }
 
         // Add option to select dropdown
         const option = document.createElement("option");

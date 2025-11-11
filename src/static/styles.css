@@ -142,3 +142,77 @@ footer {
   padding: 20px;
   color: #666;
 }
+
+.participants-section {
+  margin-top: 12px;
+}
+
+.participants-section h5 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.participants-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.participants-list li {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, #ffffff, #f7f8ff);
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e6e9ff;
+  box-shadow: 0 1px 0 rgba(13, 20, 47, 0.02);
+}
+
+.participants-list .avatar {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #1a237e;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-right: 10px;
+  flex: 0 0 28px;
+  text-transform: uppercase;
+}
+
+.participant-name {
+  font-size: 14px;
+  color: #12223f;
+  word-break: break-word;
+}
+
+.delete-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #c62828;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.delete-btn:hover {
+  background: rgba(198, 40, 40, 0.08);
+}
+
+.participants-list .no-participants {
+  font-style: italic;
+  color: #6b7280;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
